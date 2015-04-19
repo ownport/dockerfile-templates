@@ -1,0 +1,5 @@
+NAME=config-init
+DESCRIPTION="Run all config scripts according to rc* priority"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

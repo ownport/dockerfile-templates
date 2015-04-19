@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+TAGS=${1}
+
+#
+#   usage
+#
+usage() {
+
+    echo "usage: ./rerun install:from-templates <tags>"
+    echo
+}
+
+#
+#   list_available_components
+#
+list_available_components() {
+
+    find ${RERUN_COMMAND_DIR%%/}/components/ -type f -name *.dockerfile
+}
+
+#
+#   main
+#
+[ -z ${TAGS} ] && {
+    usage
+
+    echo -n "List of available components: "
+    for component in $(list_available_components)
+    do
+        echo -n "$(basename ${component} .dockerfile) "
+    done
+    echo
+    exit 1
+}
+
+cat ${RERUN_COMMAND_DIR%%/}/templates/header.dockerfile
+
+for component in $(echo ${TAGS} | tr "," "\n")
+do
+    [ -f ${RERUN_COMMAND_DIR%%/}/components/${component}.dockerfile ] && {
+        cat ${RERUN_COMMAND_DIR%%/}/components/${component}.dockerfile
+    }
+done
+
+cat ${RERUN_COMMAND_DIR%%/}/templates/footer.dockerfile
+

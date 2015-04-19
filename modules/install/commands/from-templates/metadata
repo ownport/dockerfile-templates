@@ -1,0 +1,5 @@
+NAME=install:from-templates
+DESCRIPTION="Create Dockerfile from templates"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

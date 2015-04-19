@@ -7,7 +7,7 @@ COMPONENT=${1}
 #
 usage() {
 
-    echo "usage: ./rerun config:component <component-name>"
+    echo "usage: ./rerun config:component <component-name> [--run | --export-to <directory>]"
     echo
 }
 
@@ -16,7 +16,10 @@ usage() {
 #
 list_available_components() {
 
-    find ${RERUN_COMMAND_DIR%%/}/configs/ -type f -name *.config
+    for component in $(find ${RERUN_COMMAND_DIR%%/}/configs/* -type d)
+    do
+        echo ${component}
+    done
 }
 
 #
@@ -35,8 +38,8 @@ list_available_components() {
     exit 1
 }
 
-[ -f ${RERUN_COMMAND_DIR%%/}/configs/${COMPONENT}.config ] && {
-        . ${RERUN_COMMAND_DIR%%/}/configs/${COMPONENT}.config
+[ -f ${RERUN_COMMAND_DIR%%/}/configs/${COMPONENT}/script ] && {
+        . ${RERUN_COMMAND_DIR%%/}/configs/${COMPONENT}/script
 } || {
     echo "** Error! Component name does not founded: ${COMPONENT}"
     exit 1

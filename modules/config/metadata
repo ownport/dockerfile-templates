@@ -1,0 +1,5 @@
+NAME=config
+DESCRIPTION="Configuration module"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

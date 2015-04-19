@@ -8,9 +8,6 @@ RUNLEVEL="rc1"
 
 . ${RERUN_MODULES%%/}/lib/service-functions.sh
 
-shift
-
-
 prepare() {
     echo "[INFO] Prepare user: ${USERNAME}/${USERID}"
     adduser --disabled-password --gecos '' --uid ${USERID} ${USERNAME}

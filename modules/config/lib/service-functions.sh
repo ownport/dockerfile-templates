@@ -10,21 +10,6 @@ get_command_name() {
 
 
 #
-#	check java processes: started or not
-#
-check_java_process() {
-
-    local _SERVICENAME=${1}
-
-    pgrep -f "java -Dproc_${_SERVICENAME}" 2>&1 > /dev/null && {
-        echo "- The service ${_SERVICENAME} was started successfully"
-    } || {
-        echo "Error! The service ${_SERVICENAME} was not started"
-        exit 1
-    }
-}
-
-#
 #   prepare /run/ directory before exporting config files
 #
 prepare_directory() {
@@ -56,7 +41,8 @@ prepare_directory() {
 #
 export_to() {
 
-    local _TARGET_DIR=${1}
+    local _COMPONENT=${1}
+    local _TARGET_DIR=${2}
 
     [ -z ${_TARGET_DIR} ] && {
         echo "Error! Target directory for exporting config file cannot be empty"
@@ -76,12 +62,14 @@ export_to() {
     prepare_directory "${_TARGET_DIR}"
 
     local _COMMAND_NAME=$(get_command_name)
-    echo "- Exporting '${_COMMAND_NAME}' (${RERUN_COMMAND_DIR}) to '${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMMAND_NAME}/'"
-    [ ! -d ${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMMAND_NAME}/ ] && {
-        mkdir -p ${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMMAND_NAME}/
+
+    echo -n "- Exporting '${_COMPONENT}' configs (${RERUN_COMMAND_DIR%%/}/configs/${_COMPONENT}) "
+    echo    "to '${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMPONENT}/'"
+    [ ! -d ${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMPONENT}/ ] && {
+        mkdir -p ${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMPONENT}/
     }
 
-    cp "${RERUN_COMMAND_DIR%%/}"/* "${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMMAND_NAME}/" 
+    cp "${RERUN_COMMAND_DIR%%/}"/configs/${_COMPONENT}/* "${_TARGET_DIR%%/}/modules/${RUNLEVEL}/commands/${_COMPONENT}/" 
 
     echo "- Export completed"
 
@@ -92,6 +80,8 @@ export_to() {
 #
 
 handle_command_options() {
+
+    COMPONENT=${1}; shift
 
     [ "$#" -eq 0 ] && {
         usage
@@ -108,7 +98,7 @@ handle_command_options() {
                 exit 0
                 ;;
             --export-to)
-                export_to "$2"
+                export_to ${COMPONENT} "$2"
                 exit 0
                 ;;
             *)

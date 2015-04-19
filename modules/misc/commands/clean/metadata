@@ -1,0 +1,5 @@
+NAME=clean
+DESCRIPTION="Clean temporary directories"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

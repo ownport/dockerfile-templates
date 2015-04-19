@@ -1,0 +1,5 @@
+NAME=misc
+DESCRIPTION="Service module"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

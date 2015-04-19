@@ -1,0 +1,5 @@
+NAME=config:component
+DESCRIPTION="Component configuration"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

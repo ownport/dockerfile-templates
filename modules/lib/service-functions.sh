@@ -1,11 +1,39 @@
 #!/usr/bin/env bash
 
+
+#
+#   get module name
+#
+get_module_name() {
+
+    echo $(basename ${RERUN_MODULE_DIR})
+}
+
+
 #
 #   get command name
 #
 get_command_name() {
 
-    echo $(cat ${RERUN_COMMAND_DIR}/metadata | grep NAME | cut -d= -f 2)
+    echo $(basename ${RERUN_COMMAND_DIR})
+}
+
+
+#
+#   show usage
+#
+usage() {
+
+    
+    local _MODULE_NAME=$(get_module_name)    
+    local _COMMAND_NAME=$(get_command_name)
+
+    echo "usage: ${_MODULE_NAME}:${_COMMAND_NAME} <options>"
+    echo "    --run:    run all config scripts according to rc* priority"
+    echo "    --export-to <directory>: export init script to <directory>"
+    echo 
+    echo "Note: only one option can be defined"
+    echo
 }
 
 

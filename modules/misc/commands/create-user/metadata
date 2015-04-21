@@ -1,0 +1,5 @@
+NAME=create-user
+DESCRIPTION="Create user and group"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

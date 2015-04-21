@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+USER=${1}
+GROUP=${2}
+
+create_user_and_group() {
+
+    echo "[INFO] Creating new user and group"
+    groupadd -r ${GROUP} && useradd -r -g ${GROUP} ${USER}
+    echo "[INFO] Cleaning completed"
+}
+
+
+[ -z ${USER} ] && {
+    echo "[ERROR] Username is not specified"
+    exit 1
+}
+
+[ -z ${GROUP} ] && {
+    echo "[ERROR] Groupname is not specified"
+    exit 1
+}
+
